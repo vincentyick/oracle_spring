@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 5, 2018 10:42:55 AM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.model.CustTable" table="CONNECTIONTEST_CUSTTABLE">
+        <id name="custAccount" type="java.lang.String">
+            <column name="CUSTACCOUNT" />
+            <generator class="assigned" />
+        </id>
+        <property name="custName" type="java.lang.String">
+            <column name="CUSTNAME" />
+        </property>
+        <property name="creditLimit" type="java.lang.Float">
+            <column name="CREDITLIMIT" />
+        </property>
+        <property name="createdDate" type="java.util.Date">
+            <column name="CREATEDDATE" />
+        </property>
+    </class>
+    <sql-query name="ListSomeCustomer">
+    <return alias="CustTable" class="com.model.CustTable"/>
+    SELECT CustTable.CUSTACCOUNT,
+           CustTable.CUSTNAME,
+           CustTable.CREDITLIMIT, 
+           CustTable.CREATEDDATE
+    FROM CONNECTIONTEST_CUSTTABLE CustTable
+   	WHERE CustTable.CUSTACCOUNT = :account
+	</sql-query>
+	
+	<sql-query name="InsertCustomer_SP">
+    {call INSERTTEST(:CustAccount)}
+	</sql-query>
+	
+	<sql-query name="selectAllCustomer_SP" callable="true">
+	<return alias="CustTable" class="com.model.CustTable"/>
+	    { ? = call selectAllCustomer() }
+	</sql-query>
+</hibernate-mapping>
